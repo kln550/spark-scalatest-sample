@@ -10,6 +10,7 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.4" % "provided"
 libraryDependencies += "MrPowers" % "spark-fast-tests" % "0.21.1-s_2.12" % "test"
 libraryDependencies += "mrpowers" % "spark-daria" % "0.37.1-s_2.12"
+libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.11.853"
 
 // test suite settings
 fork in Test := true
