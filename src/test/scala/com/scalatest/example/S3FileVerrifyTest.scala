@@ -42,7 +42,7 @@ class S3FileVerrifyTest extends FunSuite with BeforeAndAfterAllConfigMap {
     println("fileName=" + fileName)
   }
 
-  test("Verify whether user can able to get Oauth and AWS token") {
+  test("Verify whether user can able to get the Oauth and AWS tokens") {
     val restClient = new RestClientUtil()
     // This will create a bucket for storage.
     var accessToken = restClient.getOAuthAccessToken(clientId, clientSecret, loginURL)
