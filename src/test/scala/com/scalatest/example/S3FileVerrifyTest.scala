@@ -3,10 +3,27 @@ package com.scalatest.example
 import com.amazonaws.auth.{AWSStaticCredentialsProvider, BasicAWSCredentials}
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import org.scalatest.{BeforeAndAfterAllConfigMap, ConfigMap, FunSuite}
+import java.io._
+import org.apache.commons._
+import org.apache.http._
+import org.apache.http.client._
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.impl.client.DefaultHttpClient
+import java.util.ArrayList
+import org.apache.http.message.BasicNameValuePair
+import org.apache.http.client.entity.UrlEncodedFormEntity
+import org.apache.http.impl.client.BasicResponseHandler
+import org.apache.http.client.ResponseHandler
+//import org.json.JSONObject
+//import org.json.JSONTokener
+import com.typesafe.config._
+import com.google.gson.Gson
+import org.apache.http.client.methods.HttpGet;
 
 class S3FileVerrifyTest extends FunSuite with BeforeAndAfterAllConfigMap {
-  /* These Keys would be available to you in  "Security Credentials" of
-    your Amazon S3 account */
+  var clientId = ""
+  var clientSecret = ""
+  var loginURL = ""
   val AWS_ACCESS_KEY = ""
   val AWS_SECRET_KEY = ""
   var bucketName = ""
@@ -17,29 +34,27 @@ class S3FileVerrifyTest extends FunSuite with BeforeAndAfterAllConfigMap {
   override def beforeAll(configMap: ConfigMap) = {
     bucketName = configMap.get("bucketName").fold("")(_.toString)
     fileName = configMap.get("fileName").fold("")(_.toString)
+    clientId = configMap.get("client_id").fold("")(_.toString)
+    clientSecret = configMap.get("client_secret").fold("")(_.toString)
+    loginURL = configMap.get("loginUrl").fold("")(_.toString)
     println("bucketName=" + bucketName)
     println("fileName=" + fileName)
   }
 
-/*
-  test("Verify S3 file exist") {
-
-      // This will create a bucket for storage
-      val isExist = amazonS3Client.doesObjectExist(bucketName, fileName)
-      if (isExist) {
-        assert(true)
-      } else {
-        assert(false)
-      }
-    }
-*/
+  test("Verify Getting Authentication") {
+    val restClient = new RestClientUtil()
+    // This will create a bucket for storage
+    var accessToken = restClient.getAccessToken(clientId, clientSecret)
+    assert(accessToken == "testUser:testSecrete")
+  }
 
 
-  test("Verify S3 bucket file count exist") {
+
+  /*test("Verify S3 bucket file count exist") {
     // This will create a bucket for storage
     val count = countObjects(bucketName)
      assert(count==1)
-  }
+  }*/
 
 
   def countObjects(bucketName: String): Int = {
@@ -56,5 +71,4 @@ class S3FileVerrifyTest extends FunSuite with BeforeAndAfterAllConfigMap {
     count
   }
 
-
-  }
+}

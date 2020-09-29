@@ -10,4 +10,3 @@ sbt
 
 
 
-# AKIAIKM2JQLJTJHLEQEA

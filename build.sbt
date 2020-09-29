@@ -11,6 +11,9 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.4" % "provided"
 libraryDependencies += "MrPowers" % "spark-fast-tests" % "0.21.1-s_2.12" % "test"
 libraryDependencies += "mrpowers" % "spark-daria" % "0.37.1-s_2.12"
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.11.853"
+libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.1"
+libraryDependencies += "org.skife.com.typesafe.config" % "typesafe-config" % "0.3.0"
+libraryDependencies += "com.google.code.gson" % "gson" % "1.7.1"
 
 // test suite settings
 fork in Test := true
