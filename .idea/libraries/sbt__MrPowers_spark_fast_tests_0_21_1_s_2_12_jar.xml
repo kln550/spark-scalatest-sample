@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sbt: MrPowers:spark-fast-tests:0.21.1-s_2.12:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/http/dl.bintray.com/spark-packages/maven/MrPowers/spark-fast-tests/0.21.1-s_2.12/spark-fast-tests-0.21.1-s_2.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
