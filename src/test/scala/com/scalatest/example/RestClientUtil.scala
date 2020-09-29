@@ -1,35 +1,18 @@
 package com.scalatest.example
 
-import java.io._
-
-import org.apache.commons._
-import org.apache.http._
-import org.apache.http.client._
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.impl.client.DefaultHttpClient
-import java.util.ArrayList
-
-import org.apache.http.message.BasicNameValuePair
-import org.apache.http.client.entity.UrlEncodedFormEntity
-import org.apache.http.impl.client.BasicResponseHandler
-import org.apache.http.client.ResponseHandler
 import org.apache.http.entity.StringEntity
-//import org.json.JSONObject
-//import org.json.JSONTokener
-import com.typesafe.config._
+import org.apache.http.impl.client.{BasicResponseHandler, DefaultHttpClient}
+import java.util
+
 import com.google.gson.Gson
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.entity.UrlEncodedFormEntity
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.message.BasicNameValuePair
 import org.apache.http.protocol.HTTP
-import java.util
-import java.util.{ArrayList, List, Map}
 
 case class OauthToken(access_token: String, refresh_token: String, id: String, token_type: String, issued_at: String, signature: String)
 case class AwsTokenInfo(acccessKeyId: String, secreteAccessKey: String, sessionToken: String)
-case class AwsTokenDetailsTest(credentials: AwsTokenInfo)
-case class AwsTokenDetails(credentials: String)
+case class AwsTokenDetails(credentials: AwsTokenInfo)
 
 case class AwsCredentials(private val credentials: java.util.Map[String, String]) {
   def getCredentials = credentials
@@ -38,7 +21,7 @@ case class AwsCredentials(private val credentials: java.util.Map[String, String]
 class RestClientUtil {
 
   /* Gets the Oauth token from auth service */
-  def getAccessToken(clientId: String, clientSecret: String, loginUrl: String): String = {
+  def getOAuthAccessToken(clientId: String, clientSecret: String, loginUrl: String): String = {
     var access_token = ""
     try {
       val post = new HttpPost(loginUrl)
@@ -66,8 +49,7 @@ class RestClientUtil {
 
 
   /* Gets the Oauth token from auth service */
-  def getAwsAccessTokens(accessToken: String, awsTokenUrl: String): AwsTokenInfo = {
-    val awsTokenInfo  =null
+  def getAwsTokens(accessToken: String, awsTokenUrl: String): AwsTokenInfo = {
     var jsonBody = "{'acccessType':'Consume'}";
     try {
       // HTTP post request.
@@ -87,14 +69,14 @@ class RestClientUtil {
       val responseBody = handler.handleResponse(response);
       println(responseBody)
       val gson = new Gson
-      val awsTokenInfoFromResponse = gson.fromJson(responseBody, classOf[AwsTokenDetailsTest])
+      val awsTokenInfoFromResponse = gson.fromJson(responseBody, classOf[AwsTokenDetails])
       println(awsTokenInfoFromResponse.credentials)
       return  awsTokenInfoFromResponse.credentials
     } catch {
       case ioe: java.io.IOException =>
       case ste: java.net.SocketTimeoutException =>
     }
-    return awsTokenInfo
+    return null
   }
 
 }
